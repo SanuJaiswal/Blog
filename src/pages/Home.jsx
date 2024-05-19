@@ -19,8 +19,9 @@ function Home() {
         <Container>
           <div className="flex flex-wrap">
             <div className="p-2 w-full">
-              <h1 className="text-2xl font-bold hover:text-gray-500">
-                Login to read posts
+              <h1 className="text-2xl font-bold hover:text-blue-400 hover:scale-105">
+                Hi😄, interested to read and write some articles. Please login
+                or create an account if haven't.
               </h1>
             </div>
           </div>

@@ -14,11 +14,8 @@ function LogoutBtn() {
   };
 
   return (
-    <Button
-      onClick={logoutHandler}
-      className="inline-block duration-200 hover:bg-blue-100 "
-    >
-      LogOut
+    <Button onClick={logoutHandler} className="inline-block duration-200">
+      Logout
     </Button>
   );
 }
