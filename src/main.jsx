@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import EditPost from "./pages/EditPost";
 import Post from "./pages/Post";
 import AllPosts from "./pages/AllPosts";
+import Error from "./pages/Error.jsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
         element: <Post />,
       },
     ],
+    errorElement: <Error />,
   },
 ]);
 
