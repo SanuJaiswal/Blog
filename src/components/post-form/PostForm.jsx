@@ -6,15 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
-  const { register, handleSubmit, watch, setValue, control, getValues } =
-    useForm({
-      defaultValues: {
-        title: post?.title || "",
-        slug: post?.$id || "",
-        content: post?.content || "",
-        status: post?.status || "active",
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: post?.title || "",
+      slug: post?.slug || "",
+      content: post?.content || "",
+      status: post?.status || "active",
+    },
+  });
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -79,38 +86,57 @@ export default function PostForm({ post }) {
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
       <div className="w-2/3 px-2">
-        <Input
-          label="Title :"
-          placeholder="Title"
-          className="mb-4"
-          {...register("title", { required: true })}
-        />
-        <Input
-          label="Slug :"
-          placeholder="Slug"
-          className="mb-4"
-          {...register("slug", { required: true })}
-          onInput={(e) => {
-            setValue("slug", slugTransform(e.currentTarget.value), {
-              shouldValidate: true,
-            });
-          }}
-        />
-        <RTE
-          label="Content :"
-          name="content"
-          control={control}
-          defaultValue={getValues("content")}
-        />
+        <div className="mb-4">
+          <Input
+            label="Title :"
+            placeholder="Title"
+            {...register("title", { required: "Title is required" })}
+          />
+          {errors.title && (
+            <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <Input
+            label="Slug :"
+            placeholder="Slug"
+            {...register("slug", { required: "Slug is required" })}
+            onInput={(e) => {
+              setValue("slug", slugTransform(e.currentTarget.value), {
+                shouldValidate: true,
+              });
+            }}
+          />
+          {errors.slug && (
+            <p className="text-red-600 text-sm mt-1">{errors.slug.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <RTE
+            label="Content :"
+            name="content"
+            control={control}
+            defaultValue={getValues("content")}
+          />
+          {errors.content && (
+            <p className="text-red-600 text-sm mt-1">
+              {errors.content.message}
+            </p>
+          )}
+        </div>
       </div>
       <div className="w-1/3 px-2">
-        <Input
-          label="Featured Image :"
-          type="file"
-          className="mb-4"
-          accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post })}
-        />
+        <div className="mb-4">
+          <Input
+            label="Featured Image :"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", { required: !post && "Image is required" })}
+          />
+          {errors.image && (
+            <p className="text-red-600 text-sm mt-1">{errors.image.message}</p>
+          )}
+        </div>
         {post && (
           <div className="w-full mb-4">
             <img
@@ -120,12 +146,16 @@ export default function PostForm({ post }) {
             />
           </div>
         )}
-        <Select
-          options={["active", "inactive"]}
-          label="Status"
-          className="mb-4"
-          {...register("status", { required: true })}
-        />
+        <div className="mb-4">
+          <Select
+            options={["active", "inactive"]}
+            label="Status"
+            {...register("status", { required: "Status is required" })}
+          />
+          {errors.status && (
+            <p className="text-red-600 text-sm mt-1">{errors.status.message}</p>
+          )}
+        </div>
         <Button
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}

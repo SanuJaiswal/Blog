@@ -14,7 +14,7 @@ function LogoutBtn() {
   };
 
   return (
-    <Button onClick={logoutHandler} className="inline-block duration-200 ml-20">
+    <Button onClick={logoutHandler} className="inline-block duration-200 ml-3">
       Logout
     </Button>
   );

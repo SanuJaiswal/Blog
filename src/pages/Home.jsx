@@ -17,7 +17,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    authService.getCurrentUser().then((res) => setUser(res));
+    authService.getCurrentUser().then((user) => setUser(user));
   }, []);
 
   if (posts.length === 0 && user) {
