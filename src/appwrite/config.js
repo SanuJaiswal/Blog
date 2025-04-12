@@ -112,7 +112,16 @@ export class Service {
   }
 
   getFilePreview(fileId) {
-    return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
+    if (!fileId) return null; // Return null if fileId is not provided
+
+    try {
+      // Use getFileView instead of getFilePreview to avoid image transformations
+      const url = this.bucket.getFileView(conf.appwriteBucketId, fileId);
+      return url.toString();
+    } catch (error) {
+      console.error("Appwrite service :: getFileView :: error", error);
+      return null; // Return null if an error occurs
+    }
   }
 }
 
